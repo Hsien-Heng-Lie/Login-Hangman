@@ -6,6 +6,7 @@ const port = 3000;
 app.use(express.static("client/html"));
 app.use(express.static("client/css"));
 app.use(express.static("client/js"));
+app.use(express.static("client/img"));
 
 // Route for root URL to redirect to login page
 app.get("/", (req, res) => {
