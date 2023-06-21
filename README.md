@@ -1,5 +1,12 @@
 # Hangman
 
+## Creating the databases
+### Requirements:
+- local sql server express installed
+
+- open local instance of sql server
+- run Database_Creation.sql script in sql server management studio or dbeaver
+
 ## Running the boy
 
 - navigate into the server folder
