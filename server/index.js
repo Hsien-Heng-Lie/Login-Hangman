@@ -10,7 +10,15 @@ app.use(express.static("client/img"));
 
 // Route for root URL to redirect to login page
 app.get("/", (req, res) => {
-  res.redirect("/login.html");
+  res.redirect("/login");
+});
+
+app.get("/login", (req, res) => {
+  res.redirect("login.html");
+});
+
+app.get("/register", (req, res) => {
+  res.redirect("register.html");
 });
 
 app.listen(port, () => {
