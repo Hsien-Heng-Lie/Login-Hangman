@@ -4,6 +4,7 @@
 ### Requirements:
 - local sql server express installed
 
+### Steps
 - open local instance of sql server
 - run Database_Creation.sql script in sql server management studio or dbeaver
 
