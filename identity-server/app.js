@@ -44,9 +44,9 @@ app.post("/register", async (req, res) => {
         expiresIn: "2h",
       }
     );
-    user.token = token;
 
-    res.status(200).json(user);
+    res.setHeader("jwt-token",token);
+    res.status(201).json(user);
   } catch (err) {
     console.log(err);
   }
@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
         }
       );
 
-      user.token = token;
+      res.setHeader("jwt-token",token);
       res.status(200).json(user);
     }
     else{
