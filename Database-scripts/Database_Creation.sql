@@ -1,12 +1,9 @@
 USE [master]
 GO
-/****** Object:  Database [Hangman]    Script Date: 2023/06/20 17:05:43 ******/
 CREATE DATABASE [Hangman]
 GO
-
 USE [Hangman]
 GO
-/****** Object:  Table [dbo].[GameLog]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -24,7 +21,6 @@ CREATE TABLE [dbo].[GameLog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -39,7 +35,6 @@ CREATE TABLE [dbo].[User](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Words]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -139,7 +134,6 @@ SET IDENTITY_INSERT [dbo].[Words] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UC_User]    Script Date: 2023/06/20 17:05:43 ******/
 ALTER TABLE [dbo].[User] ADD  CONSTRAINT [UC_User] UNIQUE NONCLUSTERED 
 (
 	[UserName] ASC
@@ -150,18 +144,12 @@ REFERENCES [dbo].[User] ([Id])
 GO
 ALTER TABLE [dbo].[GameLog] CHECK CONSTRAINT [FK_GameLog_UserId]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_createGameLog]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
+
 CREATE PROCEDURE [dbo].[sp_createGameLog] 
-	-- Add the parameters for the stored procedure here
 	@UserName VARCHAR (MAX)
 
 AS
@@ -172,6 +160,13 @@ BEGIN
 		@wordId BIGINT,
 		@gameId uniqueidentifier = NEWID()
 	SET NOCOUNT ON;
+
+  MERGE INTO [dbo].[User] AS tgt
+	USING (SELECT @UserName AS UserName) AS src
+	ON tgt.UserName = src.UserName
+	WHEN NOT MATCHED
+	THEN INSERT  ( UserName, CreatedDate ) 
+		VALUES ( @UserName, GETDATE() );  
 
 	SET @userId = (SELECT TOP 1 Id FROM dbo.[User] WHERE UserName = @UserName)
 
@@ -202,26 +197,17 @@ BEGIN
 			@word AS Word
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_getGamelog_GameId]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_getGamelog_GameId]
-	-- Add the parameters for the stored procedure here
 	@GameId uniqueidentifier
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
+
 	SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
 	SELECT u.UserName,
 	GameId,
 	Word,
@@ -234,26 +220,16 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_getGamelog_UserName]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_getGamelog_UserName]
-	-- Add the parameters for the stored procedure here
 	@UserName VARCHAR(MAX)
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
 	SELECT u.UserName,
 	Word,
 	WinLose,
@@ -265,41 +241,25 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_getUser]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_getUser]
-	-- Add the parameters for the stored procedure here
 	@UserName Varchar(255)
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
+
 	SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
 	SELECT TOP 1 UserName FROM [User] WHERE UserName = @UserName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_insertUser]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_insertUser]
-	-- Add the parameters for the stored procedure here
 	@UserName Varchar(Max)
 AS
 BEGIN
@@ -313,17 +273,12 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_updateGamelog]    Script Date: 2023/06/20 17:05:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-CREATE PROCEDURE [dbo].[sp_updateGamelog]	-- Add the parameters for the stored procedure here
+
+CREATE PROCEDURE [dbo].[sp_updateGamelog]	
 	@GameId uniqueidentifier,
 	@result bit
 AS
@@ -336,12 +291,10 @@ GO
 
 USE [master]
 GO
-/****** Object:  Database [Identity_Server]    Script Date: 2023/06/20 17:06:35 ******/
 CREATE DATABASE [Identity_Server]
 GO
 USE [Identity_Server]
 GO
-/****** Object:  Table [dbo].[UserDetail]    Script Date: 2023/06/20 17:06:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -355,26 +308,17 @@ CREATE TABLE [dbo].[UserDetail](
 	[LastValid] [datetime] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_getUserDetail]    Script Date: 2023/06/20 17:06:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_getUserDetail]
-	-- Add the parameters for the stored procedure here
 	@UserName VARCHAR(255)
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
+
 	SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
 	SELECT TOP 1 
 	salt,
 	saltedHash
@@ -383,18 +327,11 @@ BEGIN
 	AND LastValid > GETDATE()
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_insertUserDetail]    Script Date: 2023/06/20 17:06:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_insertUserDetail]
-	-- Add the parameters for the stored procedure here
 	@UserName varchar(255),
     @salt varchar(max),
     @saltedHash varchar(max)
@@ -414,18 +351,11 @@ BEGIN
 		   '9999-12-31')
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_updateUserDetail]    Script Date: 2023/06/20 17:06:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
 CREATE PROCEDURE [dbo].[sp_updateUserDetail]
-	-- Add the parameters for the stored procedure here
 	@UserName varchar(255),
     @salt varchar(max),
     @saltedHash varchar(max)
@@ -451,4 +381,3 @@ BEGIN
 		   GETDATE(),
 		   '9999-12-31')
 END
-
