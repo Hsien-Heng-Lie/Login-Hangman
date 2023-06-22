@@ -14,8 +14,6 @@ app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
 
-
-// Register
 app.post("/register", async (req, res) => {
   try {
     const { userName, password } = req.body;
@@ -24,24 +22,20 @@ app.post("/register", async (req, res) => {
       return res.status(400).send("Missing Input");
     }
 
-    // check if already exist
-    const oldUser = await dbHandler.readUserDetail('john');
+    const oldUser = await dbHandler.readUserDetail(userName);
 
     if (oldUser) {
       return res.status(409).send("User Already Exist. Please Login");
     }
 
-    //Encrypt user password
     const saltedpassword = kitchen.newSeason(password);
 
-    // Create user in our database
     const insertResult = await dbHandler.insertUserDetail(userName, saltedpassword.salt, saltedpassword.seasonedFood);
     
     const user = {
       userName: userName
-    }
+    };
 
-    // Create token
     const token = jwt.sign(
       { userName: userName },
       process.env.TOKEN_KEY,
@@ -49,21 +43,66 @@ app.post("/register", async (req, res) => {
         expiresIn: "2h",
       }
     );
-    // save user token
     user.token = token;
 
-    // return new user
-    res.status(201).json(user);
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
   }
   });
   
-  // Login
-  app.post("/login", (req, res) => {
-  // TODO
-  });
+app.post("/login", async (req, res) => {
+  try {
+    const { userName, password } = req.body;
 
+    if (!(userName && password)) {
+      res.status(400).send("Missing Input");
+    }
+    const oldUser = await dbHandler.readUserDetail(userName);
 
+    if (!oldUser) {
+      return res.status(409).send("User Doesn't Exist. Please Register");
+    }
+
+    if(kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, password)){
+
+      const user = {
+        userName: userName
+      };
+
+      const token = jwt.sign(
+        { userName: userName },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+      user.token = token;
+      res.status(200).json(user);
+    }
+    else{
+      res.status(400).send("Invalid Credentials");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/authenticate", async (req, res) => {
+  const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+
+  if (!token) {
+    return res.status(403).send("No Token Found");
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    req.user = decoded;
+  } catch (err) {
+    return res.status(401).send("Invalid Token");
+  }
+  return res.status(200).send("Welcome");
+});
 
 
