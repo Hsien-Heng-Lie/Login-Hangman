@@ -16,5 +16,4 @@ const connect = async () => {
   return await pool.connect();
 };
 
-
 module.exports = connect()

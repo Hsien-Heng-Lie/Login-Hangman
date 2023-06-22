@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: '../../.env' });
 
 const verifyToken = (req, res, next) => {
-  const token = req.body.token || req.query.token || req.headers["x-access-token"];
+  req.headers["jwt-token"];
 
   if (!token) {
     return res.status(403).send("No Token Found");
