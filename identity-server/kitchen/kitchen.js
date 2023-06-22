@@ -1,5 +1,5 @@
 var crypto = require('crypto');
-require("dotenv").config({ path: '../.env' });
+require("dotenv").config({ path: '../../.env' });
 const key = process.env.Identity_Server_Key;
 
 function newSeason(food){
