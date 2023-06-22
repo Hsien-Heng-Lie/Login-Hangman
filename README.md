@@ -3,6 +3,7 @@
 ## Creating the databases
 ### Requirements:
 - local sql server express installed
+- sql login mode enabled for sql server (https://stackoverflow.com/a/58329203)
 
 ### Steps
 - open local instance of sql server
