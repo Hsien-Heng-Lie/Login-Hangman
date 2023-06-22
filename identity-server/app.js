@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 require("dotenv").config({ path: '../.env' });
 const dbHandler = require("./dbHandler");
 const kitchen = require("./kitchen");
+const verify = require("./middleware/verify");
 
 const app = express();
 const port = process.env.Identity_Server_API_PORT;
@@ -89,20 +90,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/authenticate", async (req, res) => {
-  const token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
-
-  if (!token) {
-    return res.status(403).send("No Token Found");
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-    req.user = decoded;
-  } catch (err) {
-    return res.status(401).send("Invalid Token");
-  }
+app.post("/authenticate", verify, async (req, res) => {
   return res.status(200).send("Welcome");
 });
-
-
