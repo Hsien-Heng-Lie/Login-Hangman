@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const express = require("express");
 const bodyParser = require('body-parser');
-require("dotenv").config({ path: '../.env' });
+require("dotenv").config();
 const dbHandler = require("./database/dbHandler");
 const kitchen = require("./kitchen/kitchen");
 const verify = require("./middleware/verify");
@@ -10,6 +10,11 @@ const app = express();
 const port = process.env.Identity_Server_API_PORT;
 
 app.use(bodyParser.json());
+
+app.use('*', (req, _, next) => {
+  console.log(`${req.method} on ${req.originalUrl}`);
+  next();
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
@@ -91,5 +96,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/authenticate", verify, async (req, res) => {
+  const token = req.headers["jwt-token"];
+  res.setHeader("jwt-token",token);
   return res.status(200).send("Welcome");
 });

@@ -1,0 +1,14 @@
+{
+  "name": "login-hangman",
+  "version": "1.0.0",
+  "description": "- local sql server express installed",
+  "main": "index.js",
+  "scripts": {
+    "id-install": "npm install --prefix ./identity-server",
+    "id-start": "node identity-server/app.js",
+    "server-install": "npm install --prefix ./server",
+    "server-start": "node server/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

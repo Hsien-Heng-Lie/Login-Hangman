@@ -1,5 +1,5 @@
 const sql = require("mssql");
-require("dotenv").config({ path: '../../.env' });
+require("dotenv").config();
 
 const connect = async () => {
 
