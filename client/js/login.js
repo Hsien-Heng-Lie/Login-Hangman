@@ -1,6 +1,9 @@
+import dataJson from './config.json' assert { type: 'json' };
+
+
 window.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
-
+  console.log(dataJson);
   loginForm.addEventListener("submit", (event) => {
     event.preventDefault(); // prevent default form submission
 
