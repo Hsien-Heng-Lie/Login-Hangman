@@ -1,0 +1,28 @@
+body {
+  background-image: url("letters.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  padding: 0;
+}
+
+button {
+  font-size: xx-large;
+  cursor: pointer;
+  color: #ecf0f1;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 0.18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  top: 50%;
+  left: 50%;
+}

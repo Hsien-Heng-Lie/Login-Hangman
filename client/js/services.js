@@ -60,4 +60,9 @@ async function registerUser(formData) {
   return error;
 }
 
-export { logUserIn, registerUser };
+async function startGame() {
+  // TODO: add code here
+  console.log("Endpoint still to be called");
+}
+
+export { logUserIn, registerUser, startGame };

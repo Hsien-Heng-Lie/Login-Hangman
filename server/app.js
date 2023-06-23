@@ -25,6 +25,10 @@ app.get("/register", (req, res) => {
   res.sendFile("register.html");
 });
 
+app.get("/welcome", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../client/html/welcome.html"));
+});
+
 app.post("/authenticate", (req, res) => {
   const options = {
     hostname: "localhost",
