@@ -25,13 +25,13 @@ app.post("/register", async (req, res) => {
     const { username, password } = req.body;
 
     if (!(password && username)) {
-      return res.status(400).send("Missing Input");
+      return res.status(400).send("Missing input");
     }
 
     const oldUser = await dbHandler.readUserDetail(username);
 
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res.status(409).send("User already exists. Please log in.");
     }
 
     const saltedpassword = kitchen.newSeason(password);
@@ -64,12 +64,12 @@ app.post("/login", async (req, res) => {
     console.log("Password is: " + password + " and username is: " + username);
 
     if (!(username && password)) {
-      return res.status(400).send("Missing Input");
+      return res.status(400).send("Missing input");
     }
     const oldUser = await dbHandler.readUserDetail(username);
 
     if (!oldUser) {
-      return res.status(409).send("User Doesn't Exist. Please Register");
+      return res.status(409).send("User doesn't exist. Please register.");
     }
 
     if (kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, password)) {
@@ -84,7 +84,7 @@ app.post("/login", async (req, res) => {
       res.header("jwt-token", token);
       return res.status(200).json(user);
     } else {
-      return res.status(400).send("Invalid Credentials");
+      return res.status(400).send("Invalid credentials");
     }
   } catch (err) {
     console.log(err);
