@@ -21,8 +21,4 @@ function writeConfig(){
   
 }
 
-module.exports = {
-  writeConfig: function(){
-    return writeConfig();
-  },
-};
+writeConfig();
