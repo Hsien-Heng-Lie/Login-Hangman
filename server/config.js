@@ -1,16 +1,27 @@
 fs = require('fs');
 require("dotenv").config();
 
-const name = './client/js/config.json';
+const path = './client/js/config.json';
 
 function writeConfig(){
-  const m = JSON.parse(fs.readFileSync(name));
+  if (fs.existsSync(path)) {
+    const m = JSON.parse(fs.readFileSync(path));
   
-  if(process.env.enviroment != 'dev'){
-    console.log(m.Identity_Server_Base_Url);
-    m.Identity_Server_Base_Url = process.env.Identity_Server_Base_Url;
+    if(process.env.enviroment != 'dev'){
+      console.log(m.Identity_Server_Base_Url);
+      m.Identity_Server_Base_Url = process.env.Identity_Server_Base_Url;
+    }
+    fs.writeFileSync(path, JSON.stringify(m));
+  } else {
+    const param = JSON.stringify({
+      Identity_Server_Base_Url:process.env.Identity_Server_Base_Url
+    });
+    console.log(param);
+    fs.writeFile(path, param, function (err) {
+      if (err) throw err;
+    });
   }
-   fs.writeFileSync(name, JSON.stringify(m));
+  
 }
 
 module.exports = {
