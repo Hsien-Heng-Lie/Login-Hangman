@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // handle login stuffs over here...This is just temp to get the flooooow on the goooo
     if (username === "admin" && password === "password") {
       // redirect to game page
-      window.location.href = "game.html";
+      window.location.href = "/game";
     } else {
       alert("Invalid username or password. Please try again.");
     }
