@@ -84,7 +84,7 @@ app.post("/login", async (req, res) => {
         }
       );
 
-      res.setheader("jwt-token",token);
+      res.setHeader("jwt-token",token);
       return res.status(200).json(user);
     }
     else{
