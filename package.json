@@ -6,7 +6,7 @@
   "scripts": {
     "id-install": "npm install --prefix ./identity-server",
     "id-start": "node identity-server/app.js",
-    "server-install": "npm install --prefix ./server",
+    "server-install": "echo {\"Identity_Server_Base_Url\":\"http://localhost:4040\"} > client/js/config.json & npm install --prefix ./server",
     "server-start": "node server/index.js"
   },
   "author": "",
