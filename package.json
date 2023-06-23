@@ -6,8 +6,8 @@
   "scripts": {
     "id-install": "npm install --prefix ./identity-server",
     "id-start": "node identity-server/app.js",
-    "server-install": "npm install && node config.js && npm install --prefix ./server",
-    "server-start": "node server/index.js"
+    "server-install": "npm install && npm install --prefix ./server",
+    "server-start": "node config.js && node server/index.js"
   },
   "author": "",
   "license": "ISC",
