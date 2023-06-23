@@ -7,10 +7,10 @@ const http = require("http");
 
 const server = http.createServer(app);
 
-app.use(express.static("./../client/html"));
-app.use(express.static("./../client/css"));
-app.use(express.static("./../client/js"));
-app.use(express.static("./../client/img"));
+app.use(express.static(path.join(__dirname, "..", "client", "html")));
+app.use(express.static(path.join(__dirname, "..", "client", "css")));
+app.use(express.static(path.join(__dirname, "..", "client", "js")));
+app.use(express.static(path.join(__dirname, "..", "client", "img")));
 
 // Route for root URL to redirect to login page
 app.get("/", (req, res) => {
