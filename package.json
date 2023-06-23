@@ -7,7 +7,7 @@
     "id-install": "npm install --prefix ./identity-server",
     "id-start": "node identity-server/app.js",
     "server-install": "npm install && npm install --prefix ./server",
-    "server-start": "node config.js && node server/index.js"
+    "server-start": "node config.js && node server/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,3 +15,4 @@
     "dotenv": "^16.3.1"
   }
 }
+
