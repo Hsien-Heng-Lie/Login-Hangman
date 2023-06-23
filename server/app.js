@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
-const serverPort = 4000;
+const serverPort = 3000;
 const http = require("http");
 
 const server = http.createServer(app);
