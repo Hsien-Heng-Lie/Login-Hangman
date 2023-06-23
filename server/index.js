@@ -1,6 +1,5 @@
 // basic express server
 const express = require("express");
-const config = require("./config");
 const app = express();
 const port = 3000;
 
