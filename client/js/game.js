@@ -28,8 +28,11 @@ window.addEventListener("keyup", (event) => {
 function getEmptyWord() {
   // TODO: make API call here
   let emptyWord = [];
+  let letters = document.getElementById("letters");
   for (let i = 0; i < word.length; i++) {
     emptyWord.push(null);
+    let letter = document.createElement("span");
+    letters.appendChild(letter);
   }
   return emptyWord;
 }
