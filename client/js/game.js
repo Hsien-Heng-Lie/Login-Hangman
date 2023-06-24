@@ -31,7 +31,7 @@ function getEmptyWord() {
   let letters = document.getElementById("letters");
   for (let i = 0; i < word.length; i++) {
     emptyWord.push(null);
-    let letter = document.createElement("span");
+    let letter = document.createElement("p");
     letters.appendChild(letter);
   }
   return emptyWord;
@@ -62,7 +62,7 @@ function unhideWord(indexes, key) {
   let letters = document.getElementById("letters");
   letters.innerHTML = "";
   for (const letter of emptyWord) {
-    let elem = document.createElement("span");
+    let elem = document.createElement("p");
     elem.innerHTML = letter;
     letters.appendChild(elem);
   }
