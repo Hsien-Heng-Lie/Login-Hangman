@@ -52,7 +52,6 @@ app.post("/register", async (req, res) => {
       expiresIn: "2h",
     });
 
-    res.setHeader("jwt-token", token);
     res.setHeader("Access-Control-Expose-Headers", "jwt-token");
     res.status(201).json(user);
   } catch (err) {
@@ -64,10 +63,8 @@ app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    console.log("Password is: " + password + " and username is: " + username);
-
-    if (!(username && password)) {
-      return res.status(400).send("Missing input");
+    if (!(userName && password)) {
+      return res.status(400).send("Missing Input");
     }
     const oldUser = await dbHandler.readUserDetail(username);
 
@@ -98,3 +95,4 @@ app.post("/login", async (req, res) => {
 app.post("/authenticate", verify, async (req, res) => {
   return res.setHeader("hi", "hi").status(200).send("Verified Token");
 });
+
