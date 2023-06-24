@@ -64,7 +64,7 @@ app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    if (!(userName && password)) {
+    if (!(username && password)) {
       return res.status(400).send("Missing Input");
     }
     const oldUser = await dbHandler.readUserDetail(username);
