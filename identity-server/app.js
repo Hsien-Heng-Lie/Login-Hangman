@@ -5,11 +5,13 @@ require("dotenv").config();
 const dbHandler = require("./database/dbHandler");
 const kitchen = require("./kitchen/kitchen");
 const verify = require("./middleware/verify");
+const cors = require('cors');
 
 const app = express();
 const port = process.env.Identity_Server_API_PORT;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use("*", (req, _, next) => {
   console.log(`${req.method} on ${req.originalUrl}`);
@@ -51,6 +53,7 @@ app.post("/register", async (req, res) => {
     });
 
     res.setHeader("jwt-token", token);
+    res.setHeader("Access-Control-Expose-Headers", "jwt-token");
     res.status(201).json(user);
   } catch (err) {
     console.log(err);
@@ -79,9 +82,10 @@ app.post("/login", async (req, res) => {
 
       const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
         expiresIn: "2h",
-      });
-
-      res.header("jwt-token", token);
+      });      
+      
+      res.setHeader("jwt-token", token);
+      res.setHeader("Access-Control-Expose-Headers", "jwt-token");
       return res.status(200).json(user);
     } else {
       return res.status(400).send("Invalid credentials");
