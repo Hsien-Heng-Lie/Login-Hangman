@@ -57,6 +57,7 @@ app.post("/register", async (req, res) => {
     return res.status(201).json(user);
   } catch (err) {
     console.log(err);
+    return res.status(500).send("An error occured, please try again later");
   }
 });
 
@@ -72,7 +73,7 @@ app.post("/login", async (req, res) => {
     if (!oldUser) {
       return res.status(409).send("User doesn't exist. Please register.");
     }
-
+ 
     if (kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, password)) {
       const user = {
         username: username,
@@ -90,6 +91,50 @@ app.post("/login", async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).send("An error occured, please try again later");
+  }
+});
+
+
+app.post("/password/update", verify, async (req, res) => {
+  try {
+    const { username, oldPassword, newPassword } = req.body;
+
+    if (!(username && oldPassword)) {
+      return res.status(400).send("Missing Input");
+    }
+    const oldUser = await dbHandler.readUserDetail(username);
+
+    if (!oldUser) {
+      return res.status(409).send("User doesn't exist. Please register.");
+    }
+
+    if (kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, oldPassword)) {
+      const user = {
+        username: username,
+      };
+
+      const saltedpassword = kitchen.newSeason(newPassword);
+
+      const updateResult = await dbHandler.updateUserDetail(
+        username,
+        saltedpassword.salt,
+        saltedpassword.seasonedFood
+      );
+
+      const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
+        expiresIn: "2h",
+      });      
+      
+      res.setHeader("jwt-token", token);
+      res.setHeader("Access-Control-Expose-Headers", "jwt-token");
+      return res.status(200).json(user);
+    } else {
+      return res.status(400).send("Invalid credentials");
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("An error occured, please try again later");
   }
 });
 
