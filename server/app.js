@@ -9,13 +9,12 @@ app.listen(serverPort, () => {
   console.log(`Server is running on port ${serverPort}`);
 });
 
-
 app.use(express.static(path.join(__dirname, "..", "client", "html")));
 app.use(express.static(path.join(__dirname, "..", "client", "css")));
 app.use(express.static(path.join(__dirname, "..", "client", "js")));
 app.use(express.static(path.join(__dirname, "..", "client", "img")));
 
-app.use('*', (req, _, next) => {
+app.use("*", (req, _, next) => {
   console.log(`${req.method} on ${req.originalUrl}`);
   next();
 });
