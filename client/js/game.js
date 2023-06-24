@@ -10,7 +10,7 @@ window.addEventListener("keyup", (event) => {
     if (!guesses.includes(event.key)) {
       guesses.push(event.key);
       sessionStorage.guesses = JSON.stringify(guesses);
-
+      unhideGuesses();
       let result = checkKey(event.key);
       console.log(result);
       if (result.length > 0) {
@@ -34,6 +34,8 @@ function getEmptyWord() {
     let letter = document.createElement("p");
     letters.appendChild(letter);
   }
+  let maxWidth = (word.length + 1) * 1.25;
+  letters.style.maxWidth = maxWidth + "rem";
   return emptyWord;
 }
 
@@ -52,6 +54,17 @@ function checkKey(key) {
 
 function alreadyGuessed() {
   console.log("already guessed");
+}
+
+function unhideGuesses() {
+  let guesses = JSON.parse(sessionStorage.guesses);
+  let section = document.getElementById("guesses");
+  section.innerHTML = "";
+  for (const guess of guesses) {
+    let elem = document.createElement("p");
+    elem.innerHTML = guess;
+    section.appendChild(elem);
+  }
 }
 
 function unhideWord(indexes, key) {
