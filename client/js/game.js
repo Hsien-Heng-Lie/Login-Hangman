@@ -59,6 +59,13 @@ function unhideWord(indexes, key) {
   for (const i of indexes) {
     emptyWord[i] = key;
   }
+  let letters = document.getElementById("letters");
+  letters.innerHTML = "";
+  for (const letter of emptyWord) {
+    let elem = document.createElement("span");
+    elem.innerHTML = letter;
+    letters.appendChild(elem);
+  }
   sessionStorage.emptyWord = JSON.stringify(emptyWord);
 }
 

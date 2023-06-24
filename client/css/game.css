@@ -43,8 +43,8 @@ section {
   display: inline-block;
   margin: 0.0625rem;
   height: 1.25rem;
-  text-transform: uppercase;
   width: 1.25rem;
+  text-align: center;
 }
 #game {
   height: 15.625rem;
@@ -81,7 +81,7 @@ section {
   height: 1.875rem;
   position: absolute;
   width: 0.125rem;
-  left: -0.9375rem;
+  left: -0.875rem;
   transform: rotate(45deg);
   top: 1.25rem;
 }
@@ -90,7 +90,7 @@ section {
   height: 1.875rem;
   position: absolute;
   width: 0.125rem;
-  right: -0.875rem;
+  right: -0.9375rem;
   transform: rotate(-45deg);
   top: 1.25rem;
 }
@@ -100,7 +100,7 @@ section {
   height: 2.5rem;
   position: absolute;
   width: 0.125rem;
-  left: -0.6875rem;
+  left: -0.625rem;
   top: 3.75rem;
   transform: rotate(20deg);
 }
@@ -110,7 +110,7 @@ section {
   height: 2.5rem;
   position: absolute;
   width: 0.125rem;
-  right: -0.625rem;
+  right: -0.6875rem;
   top: 3.75rem;
   transform: rotate(-20deg);
 }
