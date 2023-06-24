@@ -6,6 +6,7 @@ window.onload = (event) => {
 };
 window.addEventListener("keyup", (event) => {
   if (event.key.length == 1) {
+    document.getElementById("already-guessed").hidden = true;
     let guesses = JSON.parse(sessionStorage.guesses);
     if (!guesses.includes(event.key)) {
       guesses.push(event.key);
@@ -20,7 +21,7 @@ window.addEventListener("keyup", (event) => {
       }
       console.log(sessionStorage);
     } else {
-      alreadyGuessed();
+      document.getElementById("already-guessed").hidden = false;
     }
   }
 });
@@ -50,10 +51,6 @@ function checkKey(key) {
     while ((i = word.indexOf(key, i + 1)) >= 0) indexes.push(i);
   }
   return indexes;
-}
-
-function alreadyGuessed() {
-  console.log("already guessed");
 }
 
 function unhideGuesses() {
