@@ -16,12 +16,8 @@ async function logUserIn(formData) {
     body: params,
   });
 
-  console.log(response);
-
   if (response.ok) {
-    //   TODO: jwt isn't coming back in the response
     const token = response.headers.get("jwt-token");
-    console.log(token);
     localStorage.setItem("jwt-token", token);
     return "success";
   }
@@ -33,9 +29,13 @@ async function logUserIn(formData) {
 async function registerUser(formData) {
   const url = dataJson.Identity_Server_Base_Url + "/register";
 
+  if(formData.password != formData.confirmPassword){
+    return "Passwords don't match.";
+  }
+
   const params = JSON.stringify({
     username: formData.username,
-    password: formData.password,
+    password: formData.password
   });
 
   const response = await fetch(url, {
@@ -46,12 +46,9 @@ async function registerUser(formData) {
     body: params,
   });
 
-  console.log(response);
 
   if (response.ok) {
-    //   TODO: jwt isn't coming back in the response
     const token = response.headers.get("jwt-token");
-    console.log(token);
     localStorage.setItem("jwt-token", token);
     return "success";
   }
@@ -63,6 +60,15 @@ async function registerUser(formData) {
 async function startGame() {
   // TODO: add code here
   console.log("Endpoint still to be called");
+  
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": localStorage.getItem("jwt-token")
+    }
+  });
+
 }
 
 export { logUserIn, registerUser, startGame };
