@@ -52,8 +52,9 @@ app.post("/register", async (req, res) => {
       expiresIn: "2h",
     });
 
+    res.setHeader("jwt-token", token);
     res.setHeader("Access-Control-Expose-Headers", "jwt-token");
-    res.status(201).json(user);
+    return res.status(201).json(user);
   } catch (err) {
     console.log(err);
   }
