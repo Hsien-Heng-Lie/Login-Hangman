@@ -47,7 +47,7 @@ app.get("/game", (req, res) => {
 app.post("/game/start", auth, async (req, res) => {
   let username = res.getHeader("username");
   console.log("Request", res.getHeader("username"));
-  
+
   let game = await startGame(username);
   console.log(game);
   if (game?.recordset?.length > 0) {
@@ -65,7 +65,7 @@ app.get("/game/check", auth, async (req, res) => {
   }
 });
 
-app.post("/game/end", async (req, res) => {
+app.post("/game/end", auth, async (req, res) => {
   await endGame(req.body.gameId, req.body.gameResult);
   console.log("Game has ended");
   res.end();
