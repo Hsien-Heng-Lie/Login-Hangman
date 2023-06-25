@@ -9,7 +9,6 @@ async function startGame(username) {
 
 async function checkKey(gameId, key) {
   const game = await dbHandler.getGame(gameId);
-  console.log(game);
   if (game.recordset.length > 0) {
     const word = game.recordset[0].Word;
 
