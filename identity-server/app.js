@@ -138,7 +138,7 @@ app.post("/password/update", verify, async (req, res) => {
   }
 });
 
-app.post("/authenticate", verify, async (req, res) => {
-  return res.setHeader("hi", "hi").status(200).send("Verified Token");
+app.get("/authenticate", verify, async (req, res) => {
+  return res.status(200).send("Verified Token");
 });
 
