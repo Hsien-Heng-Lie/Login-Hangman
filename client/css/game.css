@@ -35,10 +35,10 @@ a {
 }
 section {
   background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.625rem);
   border-radius: 0.18rem;
 }
-#letters{
+#letters {
   margin: auto;
 }
 #letters > p {
@@ -179,7 +179,7 @@ section {
   top: 3.4375rem;
   width: 0.125rem;
 }
-#already-guessed{
+#already-guessed {
   text-align: center;
   background-color: rgba(255, 0, 0, 0.5);
   width: 13.75rem;

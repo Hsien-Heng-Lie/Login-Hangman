@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/html/login.html"));
+  res.sendFile(path.join(__dirname, "..", "client", "html", "login.html"));
 });
 
 app.get("/register", (req, res) => {
@@ -36,6 +36,14 @@ app.post("/authenticate", auth, (req, res) => {
   return res.redirect("/game");
 });
 
+app.get("/start", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "html", "start.html"));
+});
+
 app.get("/game", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/html/game.html"));
+  res.sendFile(path.join(__dirname, "..", "client", "html", "game.html"));
+});
+
+app.get("/end", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "html", "end.html"));
 });

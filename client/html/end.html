@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hangman | Result</title>
+    <link rel="stylesheet" type="text/css" href="end.css" />
+  </head>
+
+  <body>
+    <main class="container">
+      <a class="top-left-link" id="logout">Logout</a>
+      <section id="win" hidden>
+        <p>Congratulations!</p>
+        <p>
+          You guessed the password <span id="password"></span> in
+          <span id="guesses"></span> attempts!
+        </p>
+      </section>
+      <section id="lose" hidden>
+        <p>You lose!</p>
+      </section>
+      <button id="start">New Game?</button>
+    </main>
+    <script src="end.js"></script>
+  </body>
+</html>

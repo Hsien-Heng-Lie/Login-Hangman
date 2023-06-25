@@ -1,30 +1,39 @@
 const word = "H@ngman123";
 window.onload = (event) => {
-  sessionStorage.count = 0;
-  sessionStorage.guesses = "[]";
-  sessionStorage.emptyWord = JSON.stringify(getEmptyWord());
+  localStorage.count = 0;
+  localStorage.guesses = "[]";
+  localStorage.emptyWord = JSON.stringify(getEmptyWord());
+  localStorage.result = "";
 };
 window.addEventListener("keyup", (event) => {
   if (event.key.length == 1) {
     document.getElementById("already-guessed").hidden = true;
-    let guesses = JSON.parse(sessionStorage.guesses);
+    let guesses = JSON.parse(localStorage.guesses);
     if (!guesses.includes(event.key)) {
       guesses.push(event.key);
-      sessionStorage.guesses = JSON.stringify(guesses);
+      localStorage.guesses = JSON.stringify(guesses);
       unhideGuesses();
       let result = checkKey(event.key);
-      console.log(result);
       if (result.length > 0) {
         unhideWord(result, event.key);
       } else {
         unhideHangman();
       }
-      console.log(sessionStorage);
+      console.log(localStorage);
     } else {
       document.getElementById("already-guessed").hidden = false;
     }
   }
 });
+
+function endGame(result) {
+  if (result) {
+    localStorage.result = "win";
+  } else {
+    localStorage.result = "lose";
+  }
+  window.location.replace("/end");
+}
 
 function getEmptyWord() {
   // TODO: make API call here
@@ -54,7 +63,7 @@ function checkKey(key) {
 }
 
 function unhideGuesses() {
-  let guesses = JSON.parse(sessionStorage.guesses);
+  let guesses = JSON.parse(localStorage.guesses);
   let section = document.getElementById("guesses");
   section.innerHTML = "";
   for (const guess of guesses) {
@@ -65,7 +74,7 @@ function unhideGuesses() {
 }
 
 function unhideWord(indexes, key) {
-  let emptyWord = JSON.parse(sessionStorage.emptyWord);
+  let emptyWord = JSON.parse(localStorage.emptyWord);
   for (const i of indexes) {
     emptyWord[i] = key;
   }
@@ -76,11 +85,15 @@ function unhideWord(indexes, key) {
     elem.innerHTML = letter;
     letters.appendChild(elem);
   }
-  sessionStorage.emptyWord = JSON.stringify(emptyWord);
+  console.log(emptyWord);
+  if (!emptyWord.includes(null)) {
+    endGame(true);
+  }
+  localStorage.emptyWord = JSON.stringify(emptyWord);
 }
 
 function unhideHangman() {
-  let count = JSON.parse(sessionStorage.count);
+  let count = JSON.parse(localStorage.count);
   count++;
   switch (count) {
     case 1:
@@ -112,10 +125,11 @@ function unhideHangman() {
       break;
     case 10:
       document.getElementById("right-leg").hidden = false;
+      endGame(false);
       break;
 
     default:
       break;
   }
-  sessionStorage.count = count;
+  localStorage.count = count;
 }
