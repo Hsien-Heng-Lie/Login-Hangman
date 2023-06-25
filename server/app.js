@@ -1,9 +1,13 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const bodyParser = require("body-parser");
 const auth = require("./middleware/authenticate");
+const { startGame, endGame, checkKey } = require("./playGame");
 
 const serverPort = 4000;
+
+app.use(bodyParser.json());
 
 app.listen(serverPort, () => {
   console.log(`Server is running on port ${serverPort}`);
@@ -46,4 +50,31 @@ app.get("/game", (req, res) => {
 
 app.get("/end", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "html", "end.html"));
+});
+
+app.post("/game/start", auth, async (req, res) => {
+  let username = res.getHeader("username");
+  console.log("Request", res.getHeader("username"));
+
+  let game = await startGame(username);
+  console.log(game);
+  if (game?.recordset?.length > 0) {
+    res.json({
+      gameId: game.recordset[0].GameId,
+      wordLength: game.recordset[0].Word.length,
+    });
+  }
+});
+
+app.get("/game/check", auth, async (req, res) => {
+  if (req.query) {
+    let indexes = await checkKey(req.query.gameId, req.query.character);
+    res.json(indexes);
+  }
+});
+
+app.post("/game/end", auth, async (req, res) => {
+  await endGame(req.body.gameId, req.body.gameResult);
+  console.log("Game has ended");
+  res.end();
 });

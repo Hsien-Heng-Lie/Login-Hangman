@@ -8,7 +8,7 @@ async function readUserDetail(userName) {
   const request = new sql.Request(conn);
 
   const result = await request
-    .input('UserName', userName)
+    .input('UserName',sql.VarChar, userName)
     .execute('sp_getUserDetail');
 
   if(result.recordset[0]){
@@ -29,9 +29,9 @@ async function insertUserDetail(userName,salt,saltedHash) {
   const request = new sql.Request(conn);
 
   const result = await request
-    .input('UserName', userName)
-    .input('salt', salt)
-    .input('saltedHash', saltedHash)
+    .input('UserName',sql.VarChar, userName)
+    .input('salt',sql.VarChar, salt)
+    .input('saltedHash',sql.VarChar, saltedHash)
     .execute('sp_insertUserDetail');
 
   return result;
@@ -43,9 +43,9 @@ async function updateUserDetail(userName,salt,saltedHash) {
   const request = new sql.Request(conn);
 
   const result = await request
-    .input('UserName', userName)
-    .input('salt', salt)
-    .input('saltedHash', saltedHash)
+    .input('UserName',sql.VarChar, userName)
+    .input('salt',sql.VarChar, salt)
+    .input('saltedHash',sql.VarChar, saltedHash)
     .execute('sp_updateUserDetail');
 
   return result;
