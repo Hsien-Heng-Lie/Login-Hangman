@@ -5,7 +5,7 @@ require("dotenv").config();
 const dbHandler = require("./database/dbHandler");
 const kitchen = require("./kitchen/kitchen");
 const verify = require("./middleware/verify");
-const cors = require('cors');
+const cors = require("cors");
 
 const app = express();
 const port = process.env.Identity_Server_API_PORT;
@@ -73,7 +73,7 @@ app.post("/login", async (req, res) => {
     if (!oldUser) {
       return res.status(409).send("User doesn't exist. Please register.");
     }
- 
+
     if (kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, password)) {
       const user = {
         username: username,
@@ -81,8 +81,8 @@ app.post("/login", async (req, res) => {
 
       const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
         expiresIn: "2h",
-      });      
-      
+      });
+
       res.setHeader("jwt-token", token);
       res.setHeader("Access-Control-Expose-Headers", "jwt-token");
       return res.status(200).json(user);
@@ -94,7 +94,6 @@ app.post("/login", async (req, res) => {
     return res.status(500).send("An error occured, please try again later");
   }
 });
-
 
 app.post("/password/update", verify, async (req, res) => {
   try {
@@ -124,8 +123,8 @@ app.post("/password/update", verify, async (req, res) => {
 
       const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
         expiresIn: "2h",
-      });      
-      
+      });
+
       res.setHeader("jwt-token", token);
       res.setHeader("Access-Control-Expose-Headers", "jwt-token");
       return res.status(200).json(user);
@@ -138,7 +137,6 @@ app.post("/password/update", verify, async (req, res) => {
   }
 });
 
-app.post("/authenticate", verify, async (req, res) => {
-  return res.setHeader("hi", "hi").status(200).send("Verified Token");
+app.get("/authenticate", verify, async (req, res) => {
+  return res.status(200).send("Verified Token");
 });
-
