@@ -58,7 +58,6 @@ async function checkKey(key) {
       },
     }
   );
-  console.log(response);
   if (response.ok) {
     return await response.json();
   }
@@ -87,7 +86,6 @@ function unhideWord(indexes, key) {
     elem.innerHTML = letter;
     letters.appendChild(elem);
   }
-  console.log(emptyWord);
   if (!emptyWord.includes(null)) {
     endGame(1);
   }
