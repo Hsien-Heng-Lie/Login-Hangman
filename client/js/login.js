@@ -12,7 +12,7 @@ document
 
     response.then((data) => {
       if (data === "success") {
-        window.location.href = "/game";
+        window.location.href = "/start";
       } else {
         document.getElementById("error").innerHTML = data;
       }
