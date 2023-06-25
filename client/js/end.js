@@ -1,15 +1,34 @@
-window.onload = (event) => {
+import * as security from "./services.js";
+
+window.onload = async (event) => {
+  await fetch("/game/end", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": localStorage.getItem("jwt-token"),
+    },
+    body: JSON.stringify({
+      gameId: localStorage.gameId,
+      gameResult: localStorage.gameResult,
+    }),
+  });
   if (localStorage.gameResult == 1) {
     loadWin();
   } else {
     loadLose();
   }
 };
-document.getElementById("start").onclick = (event) => {
-  localStorage.count = 0;
-  localStorage.guesses = "[]";
-  localStorage.result = "";
-  window.location.replace("/game");
+document.getElementById("start").onclick = async (event) => {
+  const response = await security.startGame();
+  if (response == "success") {
+    localStorage.count = 0;
+    localStorage.guesses = "[]";
+    localStorage.result = "";
+    console.log("Function called");
+    window.location.replace("/game");
+  } else {
+    window.alert("Something went wrong");
+  }
 };
 
 function loadWin() {
