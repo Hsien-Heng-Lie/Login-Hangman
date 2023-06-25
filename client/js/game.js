@@ -38,7 +38,7 @@ function getEmptyWord() {
     let letter = document.createElement("p");
     letters.appendChild(letter);
   }
-  let maxWidth = (parseInt(localStorage.wordLength)) * 1.375;
+  let maxWidth = parseInt(localStorage.wordLength) * 1.375;
   letters.style.maxWidth = maxWidth + "rem";
   return emptyWord;
 }
