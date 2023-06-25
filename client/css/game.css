@@ -31,7 +31,13 @@ input {
 }
 
 a {
-  color: #1abc9c;
+  color: #ecf0f1;
+  cursor: pointer;
+}
+.top-left-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
 section {
   background-color: rgba(255, 255, 255, 0.5);
