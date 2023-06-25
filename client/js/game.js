@@ -1,11 +1,7 @@
-const word = "H@ngman123";
 window.onload = (event) => {
-  localStorage.count = 0;
-  localStorage.guesses = "[]";
   localStorage.emptyWord = JSON.stringify(getEmptyWord());
-  localStorage.result = "";
 };
-window.addEventListener("keyup", (event) => {
+window.addEventListener("keyup", async (event) => {
   if (event.key.length == 1) {
     document.getElementById("already-guessed").hidden = true;
     let guesses = JSON.parse(localStorage.guesses);
@@ -13,13 +9,12 @@ window.addEventListener("keyup", (event) => {
       guesses.push(event.key);
       localStorage.guesses = JSON.stringify(guesses);
       unhideGuesses();
-      let result = checkKey(event.key);
+      let result = await checkKey(event.key);
       if (result.length > 0) {
         unhideWord(result, event.key);
       } else {
         unhideHangman();
       }
-      console.log(localStorage);
     } else {
       document.getElementById("already-guessed").hidden = false;
     }
@@ -36,28 +31,37 @@ function endGame(gameResult) {
 }
 
 function getEmptyWord() {
-  // TODO: make API call here
   let emptyWord = [];
   let letters = document.getElementById("letters");
-  for (let i = 0; i < word.length; i++) {
+  for (let i = 0; i < localStorage.wordLength; i++) {
     emptyWord.push(null);
     let letter = document.createElement("p");
     letters.appendChild(letter);
   }
-  let maxWidth = (word.length + 1) * 1.25;
+  let maxWidth = (parseInt(localStorage.wordLength) + 1) * 1.25;
   letters.style.maxWidth = maxWidth + "rem";
   return emptyWord;
 }
 
-function checkKey(key) {
-  // TODO: make API call here
-  let i = word.indexOf(key);
-  let indexes = [];
-  if (i >= 0) {
-    indexes.push(i);
-    while ((i = word.indexOf(key, i + 1)) >= 0) indexes.push(i);
+async function checkKey(key) {
+  const response = await fetch(
+    "/game/check?" +
+      new URLSearchParams({
+        gameId: localStorage.gameId,
+        character: key,
+      }),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwt-token"),
+      },
+    }
+  );
+  console.log(response);
+  if (response.ok) {
+    return await response.json();
   }
-  return indexes;
 }
 
 function unhideGuesses() {
