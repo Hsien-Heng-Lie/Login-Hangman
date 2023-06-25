@@ -1,4 +1,5 @@
 require("dotenv").config();
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const authenticateToken = async (req, res, next) => {
   const path = process.env.Identity_Server_Base_Url + "/authenticate";
