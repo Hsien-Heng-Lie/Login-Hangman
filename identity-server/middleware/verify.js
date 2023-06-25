@@ -16,11 +16,9 @@ const verifyToken = (req, res, next) => {
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }
-
   res.setHeader("username", req.user.username);
-
   res.setHeader("Access-Control-Expose-Headers", "username");
-
+  console.log(req.user.username);
   return next();
 };
 

@@ -45,9 +45,9 @@ app.get("/game", (req, res) => {
 });
 
 app.post("/game/start", auth, async (req, res) => {
-  let username = req.headers.username;
-  console.log("Request", req.headers);
-
+  let username = res.getHeader("username");
+  console.log("Request", res.getHeader("username"));
+  
   let game = await startGame(username);
   console.log(game);
   if (game?.recordset?.length > 0) {
