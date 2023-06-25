@@ -52,12 +52,9 @@ app.get("/end", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "html", "end.html"));
 });
 
-app.post("/game/start", auth, async (req, res) => {
+app.get("/game/start", auth, async (req, res) => {
   let username = res.getHeader("username");
-  console.log("Request", res.getHeader("username"));
-
   let game = await startGame(username);
-  console.log(game);
   if (game?.recordset?.length > 0) {
     res.json({
       gameId: game.recordset[0].GameId,
