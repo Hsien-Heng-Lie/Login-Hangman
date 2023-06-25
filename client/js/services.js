@@ -56,29 +56,20 @@ async function registerUser(formData) {
   return error;
 }
 
-async function startGame(username) {
-  // TODO: add code here
-  console.log("Endpoint still to be called");
-  //post to /game/start
+async function startGame() {
   const url = "/game/start";
-
-  const params = JSON.stringify({
-    username, //TO DO - get username from db or use jwt token??
-  });
-
   const response = await fetch(url, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       "jwt-token": localStorage.getItem("jwt-token"),
     },
-    body: params,
   });
-
   if (response.ok) {
-    const word = response.word; // check object
-    const gameId = response.gameId; // check object
-    localStorage.setItem("word", word);
+    let res = await response.json();
+    const wordLength = res.wordLength;
+    const gameId = res.gameId;
+    localStorage.setItem("wordLength", wordLength);
     localStorage.setItem("gameId", gameId);
     return "success";
   }
