@@ -7,7 +7,7 @@ document.getElementById("start").onclick = async (event) => {
     localStorage.guesses = "[]";
     localStorage.result = "";
     console.log("Function called");
-    window.location.replace("/game");
+    window.location.href = "/game";
   } else {
     window.alert("Something went wrong");
   }

@@ -27,7 +27,7 @@ function endGame(gameResult) {
   } else {
     localStorage.gameResult = 0;
   }
-  window.location.replace("/end");
+  window.location.href = "/end";
 }
 
 function getEmptyWord() {
