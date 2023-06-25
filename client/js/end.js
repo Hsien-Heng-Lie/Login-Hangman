@@ -1,5 +1,5 @@
 window.onload = (event) => {
-  if (localStorage.result == "win") {
+  if (localStorage.gameResult == 1) {
     loadWin();
   } else {
     loadLose();

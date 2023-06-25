@@ -26,11 +26,11 @@ window.addEventListener("keyup", (event) => {
   }
 });
 
-function endGame(result) {
-  if (result) {
-    localStorage.result = "win";
+function endGame(gameResult) {
+  if (gameResult) {
+    localStorage.gameResult = 1;
   } else {
-    localStorage.result = "lose";
+    localStorage.gameResult = 0;
   }
   window.location.replace("/end");
 }
@@ -51,10 +51,8 @@ function getEmptyWord() {
 
 function checkKey(key) {
   // TODO: make API call here
-  console.log(key);
   let i = word.indexOf(key);
   let indexes = [];
-  console.log(i);
   if (i >= 0) {
     indexes.push(i);
     while ((i = word.indexOf(key, i + 1)) >= 0) indexes.push(i);
@@ -87,7 +85,7 @@ function unhideWord(indexes, key) {
   }
   console.log(emptyWord);
   if (!emptyWord.includes(null)) {
-    endGame(true);
+    endGame(1);
   }
   localStorage.emptyWord = JSON.stringify(emptyWord);
 }
@@ -125,7 +123,7 @@ function unhideHangman() {
       break;
     case 10:
       document.getElementById("right-leg").hidden = false;
-      endGame(false);
+      endGame(0);
       break;
 
     default:

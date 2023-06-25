@@ -33,7 +33,7 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/authenticate", auth, (req, res) => {
-  return res.redirect("/game");
+  return res.redirect("/start");
 });
 
 app.get("/start", (req, res) => {
