@@ -38,7 +38,7 @@ function getEmptyWord() {
     let letter = document.createElement("p");
     letters.appendChild(letter);
   }
-  let maxWidth = (parseInt(localStorage.wordLength) + 1) * 1.25;
+  let maxWidth = (parseInt(localStorage.wordLength)) * 1.375;
   letters.style.maxWidth = maxWidth + "rem";
   return emptyWord;
 }
@@ -87,7 +87,7 @@ function unhideWord(indexes, key) {
     letters.appendChild(elem);
   }
   if (!emptyWord.includes(null)) {
-    endGame(1);
+    endGame(true);
   }
   localStorage.emptyWord = JSON.stringify(emptyWord);
 }
@@ -125,7 +125,7 @@ function unhideHangman() {
       break;
     case 10:
       document.getElementById("right-leg").hidden = false;
-      endGame(0);
+      endGame(false);
       break;
 
     default:
