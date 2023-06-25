@@ -1,4 +1,4 @@
-import * as security from "./services.js";
+import * as services from "./services.js";
 
 window.onload = async (event) => {
   await fetch("/game/end", {
@@ -17,9 +17,10 @@ window.onload = async (event) => {
   } else {
     loadLose();
   }
+  localStorage.emptyWord = [];
 };
 document.getElementById("start").onclick = async (event) => {
-  const response = await security.startGame();
+  const response = await services.startGame();
   if (response == "success") {
     localStorage.count = 0;
     localStorage.guesses = "[]";
@@ -35,8 +36,8 @@ function loadWin() {
   document.getElementById("win").hidden = false;
   let word = JSON.parse(localStorage.emptyWord);
   let guesses = JSON.parse(localStorage.guesses);
-  document.getElementById("password").innerHTML = word.join("");
-  document.getElementById("guesses").innerHTML = guesses.length;
+  document.getElementById("password").innerText = word.join("");
+  document.getElementById("guesses").innerText = guesses.length;
 }
 
 function loadLose() {
