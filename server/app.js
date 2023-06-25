@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const bodyParser = require("body-parser");
 const auth = require("./middleware/authenticate");
 const { startGame, endGame, checkKey } = require("./playGame");
 
 const serverPort = 4000;
+
+app.use(bodyParser.json());
 
 app.listen(serverPort, () => {
   console.log(`Server is running on port ${serverPort}`);
@@ -63,8 +66,7 @@ app.get("/game/check", auth, async (req, res) => {
 });
 
 app.post("/game/end", async (req, res) => {
-  gameId = 1;
-  gameResult = 1;
-  await endGame(gameId, gameResult);
+  await endGame(req.body.gameId, req.body.gameResult);
   console.log("Game has ended");
+  res.end();
 });

@@ -24,10 +24,8 @@ async function checkKey(gameId, key) {
 }
 
 async function endGame(gameId, gameResult) {
-  //let result = "Win";
-  //gameId = localStorage.getItem("gameId");
   try {
-    await dbHandler.endGame(gameId, gameResult); //get result somehow??
+    await dbHandler.endGame(gameId, gameResult);
   } catch (err) {
     console.log(err);
     return;
