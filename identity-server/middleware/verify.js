@@ -18,7 +18,6 @@ const verifyToken = (req, res, next) => {
   }
   res.setHeader("username", req.user.username);
   res.setHeader("Access-Control-Expose-Headers", "username");
-  console.log(req.user.username);
   return next();
 };
 
