@@ -1,17 +1,19 @@
 const jwt = require("jsonwebtoken");
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 require("dotenv").config();
 const dbHandler = require("./database/dbHandler");
 const kitchen = require("./kitchen/kitchen");
 const verify = require("./middleware/verify");
+const cors = require('cors');
 
 const app = express();
 const port = process.env.Identity_Server_API_PORT;
 
 app.use(bodyParser.json());
+app.use(cors());
 
-app.use('*', (req, _, next) => {
+app.use("*", (req, _, next) => {
   console.log(`${req.method} on ${req.originalUrl}`);
   next();
 });
@@ -22,79 +24,121 @@ app.listen(port, () => {
 
 app.post("/register", async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!(password && userName)) {
-      return res.status(400).send("Missing Input");
+    if (!(password && username)) {
+      return res.status(400).send("Missing input");
     }
 
-    const oldUser = await dbHandler.readUserDetail(userName);
+    const oldUser = await dbHandler.readUserDetail(username);
 
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res.status(409).send("User already exists. Please log in.");
     }
 
     const saltedpassword = kitchen.newSeason(password);
 
-    const insertResult = await dbHandler.insertUserDetail(userName, saltedpassword.salt, saltedpassword.seasonedFood);
-    
-    const user = {
-      userName: userName
-    };
-
-    const token = jwt.sign(
-      { userName: userName },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
+    const insertResult = await dbHandler.insertUserDetail(
+      username,
+      saltedpassword.salt,
+      saltedpassword.seasonedFood
     );
 
-    res.setHeader("jwt-token",token);
+    const user = {
+      username: username,
+    };
+
+    const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
+      expiresIn: "2h",
+    });
+
+    res.setHeader("jwt-token", token);
+    res.setHeader("Access-Control-Expose-Headers", "jwt-token");
     return res.status(201).json(user);
   } catch (err) {
     console.log(err);
+    return res.status(500).send("An error occured, please try again later");
   }
-  });
-  
+});
+
 app.post("/login", async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!(userName && password)) {
+    if (!(username && password)) {
       return res.status(400).send("Missing Input");
     }
-    const oldUser = await dbHandler.readUserDetail(userName);
+    const oldUser = await dbHandler.readUserDetail(username);
 
     if (!oldUser) {
-      return res.status(409).send("User Doesn't Exist. Please Register");
+      return res.status(409).send("User doesn't exist. Please register.");
     }
-
-    if(kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, password)){
-
+ 
+    if (kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, password)) {
       const user = {
-        userName: userName
+        username: username,
       };
 
-      const token = jwt.sign(
-        { userName: userName },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-      );
-
-      res.setHeader("jwt-token",token);
+      const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
+        expiresIn: "2h",
+      });      
+      
+      res.setHeader("jwt-token", token);
+      res.setHeader("Access-Control-Expose-Headers", "jwt-token");
       return res.status(200).json(user);
-    }
-    else{
-      return res.status(400).send("Invalid Credentials");
+    } else {
+      return res.status(400).send("Invalid credentials");
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).send("An error occured, please try again later");
+  }
+});
+
+
+app.post("/password/update", verify, async (req, res) => {
+  try {
+    const { username, oldPassword, newPassword } = req.body;
+
+    if (!(username && oldPassword)) {
+      return res.status(400).send("Missing Input");
+    }
+    const oldUser = await dbHandler.readUserDetail(username);
+
+    if (!oldUser) {
+      return res.status(409).send("User doesn't exist. Please register.");
+    }
+
+    if (kitchen.compareSeason(oldUser.saltedHash, oldUser.salt, oldPassword)) {
+      const user = {
+        username: username,
+      };
+
+      const saltedpassword = kitchen.newSeason(newPassword);
+
+      const updateResult = await dbHandler.updateUserDetail(
+        username,
+        saltedpassword.salt,
+        saltedpassword.seasonedFood
+      );
+
+      const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
+        expiresIn: "2h",
+      });      
+      
+      res.setHeader("jwt-token", token);
+      res.setHeader("Access-Control-Expose-Headers", "jwt-token");
+      return res.status(200).json(user);
+    } else {
+      return res.status(400).send("Invalid credentials");
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("An error occured, please try again later");
   }
 });
 
 app.post("/authenticate", verify, async (req, res) => {
-  return res.setHeader("hi","hi").status(200).send("Verified Token");
+  return res.setHeader("hi", "hi").status(200).send("Verified Token");
 });
+

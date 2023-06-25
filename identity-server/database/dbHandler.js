@@ -37,11 +37,29 @@ async function insertUserDetail(userName,salt,saltedHash) {
   return result;
 };
 
+async function updateUserDetail(userName,salt,saltedHash) {
+  const conn = await dbConnect;
+
+  const request = new sql.Request(conn);
+
+  const result = await request
+    .input('UserName', userName)
+    .input('salt', salt)
+    .input('saltedHash', saltedHash)
+    .execute('sp_updateUserDetail');
+
+  return result;
+};
+
+
 module.exports = {
   readUserDetail: function(userName){
     return readUserDetail(userName);
   },
   insertUserDetail: function(userName,salt,saltedHash){
     return insertUserDetail(userName,salt,saltedHash);
+  },
+  updateUserDetail: function(userName,salt,saltedHash){
+    return updateUserDetail(userName,salt,saltedHash);
   }
-};
+}; 
