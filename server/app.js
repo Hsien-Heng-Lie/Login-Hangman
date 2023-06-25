@@ -72,6 +72,5 @@ app.get("/game/check", auth, async (req, res) => {
 
 app.post("/game/end", auth, async (req, res) => {
   await endGame(req.body.gameId, req.body.gameResult);
-  console.log("Game has ended");
   res.end();
 });

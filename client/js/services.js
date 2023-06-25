@@ -57,7 +57,6 @@ async function registerUser(formData) {
 }
 
 async function startGame() {
-  console.log("Endpoint still to be called");
   const url = "/game/start";
   const response = await fetch(url, {
     method: "GET",
