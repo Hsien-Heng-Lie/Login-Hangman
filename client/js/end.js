@@ -17,7 +17,7 @@ window.onload = async (event) => {
   } else {
     loadLose();
   }
-  localStorage.emptyWord = [];
+  localStorage.emptyWord = "";
 };
 document.getElementById("start").onclick = async (event) => {
   const response = await services.startGame();

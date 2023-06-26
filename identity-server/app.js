@@ -49,7 +49,7 @@ app.post("/register", async (req, res) => {
     };
 
     const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
-      expiresIn: "2h",
+      expiresIn: "1h",
     });
 
     res.setHeader("jwt-token", token);
@@ -80,7 +80,7 @@ app.post("/login", async (req, res) => {
       };
 
       const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
-        expiresIn: "2h",
+        expiresIn: "1h",
       });
 
       res.setHeader("jwt-token", token);
@@ -122,7 +122,7 @@ app.post("/password/update", verify, async (req, res) => {
       );
 
       const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
-        expiresIn: "2h",
+        expiresIn: "1h",
       });
 
       res.setHeader("jwt-token", token);
