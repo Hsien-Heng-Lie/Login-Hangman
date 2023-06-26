@@ -1,4 +1,17 @@
+import * as services from "./services.js";
+
 window.onload = (event) => {
+  const token =  localStorage.getItem("jwt-token");
+  if(token === "" || !token || token == null){
+    window.location.href = "/login";
+  }
+
+  const response = services.authenticateToken(token);
+  response.then((data) => {
+    if (data !== "success") {
+      window.location.href = "/login";
+    }
+  });
   localStorage.emptyWord = JSON.stringify(getEmptyWord());
 };
 

@@ -56,6 +56,25 @@ async function registerUser(formData) {
   return error;
 }
 
+async function authenticateToken(token) {
+  const url = dataJson.Identity_Server_Base_Url + "/authenticate";
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": token,
+    },
+  });
+
+  if (response.ok) {
+    return "success";
+  }
+
+  const error = await response.text();
+  return error;
+}
+
 async function startGame() {
   const url = "/game/start";
   const response = await fetch(url, {
@@ -87,7 +106,7 @@ async function endGame(gameId, result) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "jwt-token": localStorage.getItem("Jwt-token"),
+      "jwt-token": localStorage.getItem("jwt-token"),
     },
     body: params,
   });
@@ -103,7 +122,7 @@ async function logUserOut() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "jwt-token": localStorage.getItem("Jwt-token"),
+      "jwt-token": localStorage.getItem("jwt-token"),
     },
   });
   if (response.ok) {
@@ -112,4 +131,4 @@ async function logUserOut() {
   }
 }
 
-export { logUserIn, registerUser, startGame, endGame, logUserOut };
+export { logUserIn, registerUser, startGame, endGame, logUserOut, authenticateToken };
