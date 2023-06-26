@@ -74,3 +74,7 @@ app.post("/game/end", auth, async (req, res) => {
   await endGame(req.body.gameId, req.body.gameResult);
   res.end();
 });
+
+app.get("/logout", (req, res) => {
+  res.end();
+});

@@ -97,4 +97,19 @@ async function endGame(gameId, result) {
   }
 }
 
-export { logUserIn, registerUser, startGame, endGame };
+async function logUserOut() {
+  const url = "/logout";
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": localStorage.getItem("Jwt-token"),
+    },
+  });
+  if (response.ok) {
+    localStorage.clear();
+    return "success";
+  }
+}
+
+export { logUserIn, registerUser, startGame, endGame, logUserOut };

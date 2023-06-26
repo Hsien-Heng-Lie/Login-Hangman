@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hangman | Result</title>
-    <link rel="stylesheet" type="text/css" href="end.css" />
-    <script type="module" src="end.js" defer></script>
-  </head>
 
-  <body>
-    <main class="container">
-      <a class="top-left-link" id="logout">Logout</a>
-      <section id="win" hidden>
-        <p>Congratulations!</p>
-        <p>
-          You guessed the password <span id="password"></span> in
-          <span id="guesses"></span> attempts!
-        </p>
-      </section>
-      <section id="lose" hidden>
-        <p>You lose!</p>
-      </section>
-      <button id="start">New Game?</button>
-    </main>
-  </body>
+<head>
+  <title>Hangman | Result</title>
+  <link rel="stylesheet" type="text/css" href="end.css" />
+  <script type="module" src="end.js" defer></script>
+  <script type="module" src="logout.js" defer></script>
+</head>
+
+<body>
+  <main class="container">
+    <a class="top-left-link" id="logout">Logout</a>
+    <section id="win" hidden>
+      <p>Congratulations!</p>
+      <p>
+        You guessed the password <span id="password"></span> in
+        <span id="guesses"></span> attempts!
+      </p>
+    </section>
+    <section id="lose" hidden>
+      <p>You lose!</p>
+    </section>
+    <button id="start">New Game?</button>
+  </main>
+</body>
+
 </html>
