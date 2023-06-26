@@ -40,15 +40,15 @@ app.post("/authenticate", auth, (req, res) => {
   return res.redirect("/start");
 });
 
-app.get("/start", auth, (req, res) => {
+app.get("/start", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "html", "start.html"));
 });
 
-app.get("/game", auth, (req, res) => {
+app.get("/game", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "html", "game.html"));
 });
 
-app.get("/end", auth, (req, res) => {
+app.get("/end", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "html", "end.html"));
 });
 

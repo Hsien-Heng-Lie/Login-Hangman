@@ -4,7 +4,7 @@
 ### Requirements:
 - local sql server express installed
 - sql login mode enabled for sql server (https://stackoverflow.com/a/58329203)
-
+- create sql login (username and password) (https://learn.microsoft.com/en-us/sql/t-sql/statements/create-login-transact-sql?view=sql-server-ver16)
 ### Steps
 - open local instance of sql server
 - run Database_Creation.sql script in sql server management studio or dbeaver
@@ -22,7 +22,7 @@ DATABASE_Connection_String= *
 DATABASE_Port= *  
 DATABASE_User= *  
 DATABASE_KEY= *  
-DABASE_Identity=Identity_Server  
+DATABASE_Identity=Identity_Server  
 DATABASE_Hangman=Hangman  
 
 enviroment=dev  
