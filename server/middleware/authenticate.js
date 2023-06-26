@@ -1,5 +1,6 @@
 require("dotenv").config();
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const authenticateToken = async (req, res, next) => {
   const path = process.env.Identity_Server_Base_Url + "/authenticate";
@@ -16,9 +17,9 @@ const authenticateToken = async (req, res, next) => {
     res.setHeader("username", response.headers.get("username"));
     return next();
   } else if (statusCode === 401 || statusCode === 403) {
-    return res.redirect(statusCode, "/login");
+    return res.redirect("/login");
   } else {
-    return res.redirect(statusCode, "/login");
+    return res.redirect("/login");
   }
 };
 
