@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hangman Game</title>
-    <link rel="stylesheet" type="text/css" href="game.css" />
-    <script src="game.js" defer></script>
-  </head>
 
-  <body>
-    <main>
-      <a class="top-left-link" id="logout">Logout</a>
-      <section id="letters"></section>
-      <section id="game">
-        <figure id="hangman">
-          <figure id="man">
-            <figure id="head" hidden></figure>
-            <figure id="body" hidden></figure>
-            <figure id="left-arm" hidden></figure>
-            <figure id="right-arm" hidden></figure>
-            <figure id="left-leg" hidden></figure>
-            <figure id="right-leg" hidden></figure>
-          </figure>
-          <figure id="rope" hidden></figure>
-          <figure id="beam" hidden></figure>
-          <figure id="post" hidden></figure>
-          <figure id="ground" hidden></figure>
+<head>
+  <title>Hangman Game</title>
+  <link rel="stylesheet" type="text/css" href="game.css" />
+  <script src="game.js" defer></script>
+  <script type="module" src="logout.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <a class="top-left-link" id="logout">Logout</a>
+    <section id="letters"></section>
+    <section id="game">
+      <figure id="hangman">
+        <figure id="man">
+          <figure id="head" hidden></figure>
+          <figure id="body" hidden></figure>
+          <figure id="left-arm" hidden></figure>
+          <figure id="right-arm" hidden></figure>
+          <figure id="left-leg" hidden></figure>
+          <figure id="right-leg" hidden></figure>
         </figure>
-      </section>
-      <section id="guesses"></section>
-      <section id="already-guessed" hidden>Already guessed</section>
-    </main>
-  </body>
+        <figure id="rope" hidden></figure>
+        <figure id="beam" hidden></figure>
+        <figure id="post" hidden></figure>
+        <figure id="ground" hidden></figure>
+      </figure>
+    </section>
+    <section id="guesses"></section>
+    <section id="already-guessed" hidden>Already guessed</section>
+  </main>
+</body>
+
 </html>

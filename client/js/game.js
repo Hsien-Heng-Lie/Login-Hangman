@@ -8,8 +8,13 @@ window.addEventListener("keyup", async (event) => {
     let guesses = JSON.parse(localStorage.guesses);
     let count = JSON.parse(localStorage.count);
     let emptyWord = JSON.parse(localStorage.emptyWord);
-    let correctLetters = emptyWord.filter(v => v != null).filter((item, i, ar) => ar.indexOf(item) === i);
-    if (!guesses.includes(event.key) && correctLetters.length+count == guesses.length) {
+    let correctLetters = emptyWord
+      .filter((v) => v != null)
+      .filter((item, i, ar) => ar.indexOf(item) === i);
+    if (
+      !guesses.includes(event.key) &&
+      correctLetters.length + count == guesses.length
+    ) {
       guesses.push(event.key);
       localStorage.guesses = JSON.stringify(guesses);
       unhideGuesses();
@@ -25,7 +30,6 @@ window.addEventListener("keyup", async (event) => {
   }
 });
 
-
 function endGame(gameResult) {
   if (gameResult) {
     localStorage.gameResult = 1;
@@ -39,8 +43,13 @@ function getEmptyWord() {
   let emptyWord = [];
   let letters = document.getElementById("letters");
 
-  if(localStorage.getItem("emptyWord") != "" && localStorage.getItem("emptyWord") != null){
-    if(JSON.parse(localStorage.emptyWord).filter(v => v != null).length > 0){
+  if (
+    localStorage.getItem("emptyWord") != "" &&
+    localStorage.getItem("emptyWord") != null
+  ) {
+    if (
+      JSON.parse(localStorage.emptyWord).filter((v) => v != null).length > 0
+    ) {
       unhideLetters();
       unhideHangman(0);
       unhideGuesses();
@@ -93,7 +102,7 @@ function unhideGuesses() {
   }
 }
 
-function unhideLetters(){
+function unhideLetters() {
   let emptyWord = JSON.parse(localStorage.emptyWord);
   let letters = document.getElementById("letters");
   letters.innerHTML = "";
@@ -126,13 +135,24 @@ function unhideHangman(increment) {
   let count = JSON.parse(localStorage.count);
   count += increment;
 
-  let hangman = ["ground","post","beam","rope","head","body","left-arm","right-arm","left-leg","right-leg"];
+  let hangman = [
+    "ground",
+    "post",
+    "beam",
+    "rope",
+    "head",
+    "body",
+    "left-arm",
+    "right-arm",
+    "left-leg",
+    "right-leg",
+  ];
 
   for (let i = 0; i < count; i++) {
     document.getElementById(hangman[i]).hidden = false;
   }
 
-  if(count == 10){
+  if (count == 10) {
     endGame(false);
   }
   localStorage.count = count;
